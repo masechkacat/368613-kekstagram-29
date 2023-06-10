@@ -1,16 +1,13 @@
 const phrase = 'tenet';
 const maxSymbols = 3;
 
-const validStr = function (str, maxLength) {
-  if (str.length <= maxLength) {
-    return true;
-  }
-  return false;
+const isValidStr = function (str, maxLength) {
+  return (str.length <= maxLength);
 };
-validStr (phrase, maxSymbols);
+isValidStr (phrase, maxSymbols);
 
 
-const palindrome = function (str) {
+const isPalindrome = function (str) {
   str = str.toLowerCase().replace(/[^а-яa-z1-9]/gi,'');
   const lastIndex = str.length - 1;
   for (let i = 0; i < str.length / 2; i++) {
@@ -20,4 +17,4 @@ const palindrome = function (str) {
   }
   return true;
 };
-palindrome (phrase);
+isPalindrome (phrase);
