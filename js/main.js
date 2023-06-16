@@ -30,21 +30,21 @@ const getRandomInteger = (min, max) => Math.floor(Math.random() * (max - min + 1
 
 //Функциb для генерации объектов
 const createPhoto = (id) => ({
-  id: id,
+  id: ++id,
   url: `photos/${id}.jpg`,
   description: description[getRandomInteger(0, description.length - 1)],
   likes: getRandomInteger(likes.MIN, likes.MAX),
   comments: createComments()
 });
 
-const createComment = () => ({
-  id: getRandomInteger(0, 30000),
+const createComment = (id) => ({
+  id: ++id,//getRandomInteger(0, 30000),
   avatar: `photos/${getRandomInteger(1,6)}.jpg`,
   message: message[getRandomInteger(0, description.length - 1)],
   name: names[getRandomInteger(0, names.length - 1)]
 });
 
-const createComments = () => Array.from({length: getRandomInteger(0,30)}, createComment);
+const createComments = () => Array.from({length: getRandomInteger(0,30)}, (_, index) => createComment(index));
 //Заполняем массив с помощью метода .from и назначаем аргументом в createPhoto индекс создаваемого массива (счётчик)
 const createPhotos = Array.from({length: PHOTO_COUNT}, (_, index) => createPhoto(index));
 
