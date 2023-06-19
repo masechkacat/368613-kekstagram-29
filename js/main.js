@@ -11,6 +11,10 @@ const commentsRange = {
   MIN: 0,
   MAX: 30
 };
+const messagesRange = {
+  MIN: 1,
+  MAX: 2
+};
 //Массив описаний
 const description = ['На даче', 'У моря', 'На работе', 'В кино','На прогулке'];
 
@@ -33,10 +37,19 @@ const names = [
   'Вашингтон',
 ];
 
-//Генератор случайных чисел
+
 const getRandomInteger = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-//Функциb для генерации объектов photo
+function createMsg (){
+  let messages = [];
+  while (messages.length < getRandomInteger(messagesRange.MIN, messagesRange.MAX)) {
+    const indexMsg = getRandomInteger(0,message.length - 1);
+    messages.push(message[indexMsg]);
+    messages = messages.filter((v, i, arr) => arr.indexOf(v) === i);
+  }
+  return messages.toString().replaceAll(',', ' ');
+}
+
 const createPhoto = (id) => ({
   id: ++id,
   url: `photos/${id}.jpg`,
@@ -44,14 +57,14 @@ const createPhoto = (id) => ({
   likes: getRandomInteger(likesRange.MIN, likesRange.MAX),
   comments: createComments()
 });
-//функция для генерации comments
+
 const createComment = (id) => ({
   id: ++id,
   avatar: `photos/${getRandomInteger(avatarRange.MIN,avatarRange.MAX)}.jpg`,
-  message: message[getRandomInteger(0, message.length - 1)],
+  message: createMsg(),
   name: names[getRandomInteger(0, names.length - 1)]
 });
 
 const createComments = () => Array.from({length: getRandomInteger(commentsRange.MIN,commentsRange.MAX)}, (_, index) => createComment(index));
-//Заполняем массив с помощью метода .from и назначаем аргументом в createPhoto индекс создаваемого массива (счётчик)
+
 const createPhotos = Array.from({length: PHOTO_COUNT}, (_, index) => createPhoto(index));
