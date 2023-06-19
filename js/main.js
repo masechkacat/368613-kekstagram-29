@@ -36,7 +36,6 @@ const names = [
 //Генератор случайных чисел
 const getRandomInteger = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-
 //Функциb для генерации объектов photo
 const createPhoto = (id) => ({
   id: ++id,
