@@ -40,7 +40,7 @@ const names = [
 
 const getRandomInteger = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-function createMsg (){
+const createMsg = () => {
   let messages = [];
   while (messages.length < getRandomInteger(messagesRange.MIN, messagesRange.MAX)) {
     const indexMsg = getRandomInteger(0,message.length - 1);
@@ -48,15 +48,7 @@ function createMsg (){
     messages = messages.filter((v, i, arr) => arr.indexOf(v) === i);
   }
   return messages.toString().replaceAll(',', ' ');
-}
-
-const createPhoto = (id) => ({
-  id: ++id,
-  url: `photos/${id}.jpg`,
-  description: description[getRandomInteger(0, description.length - 1)],
-  likes: getRandomInteger(likesRange.MIN, likesRange.MAX),
-  comments: createComments()
-});
+};
 
 const createComment = (id) => ({
   id: ++id,
@@ -67,4 +59,15 @@ const createComment = (id) => ({
 
 const createComments = () => Array.from({length: getRandomInteger(commentsRange.MIN,commentsRange.MAX)}, (_, index) => createComment(index));
 
-const createPhotos = Array.from({length: PHOTO_COUNT}, (_, index) => createPhoto(index));
+
+const createPhoto = (id) => ({
+  id: ++id,
+  url: `photos/${id}.jpg`,
+  description: description[getRandomInteger(0, description.length - 1)],
+  likes: getRandomInteger(likesRange.MIN, likesRange.MAX),
+  comments: createComments()
+});
+
+const createPhotos = () => Array.from({length: PHOTO_COUNT}, (_, index) => createPhoto(index));
+
+createPhotos();
