@@ -51,23 +51,23 @@ const createMsg = () => {
 };
 
 const createComment = (id) => ({
-  id: ++id,
+  id: id,
   avatar: `photos/${getRandomInteger(avatarRange.MIN,avatarRange.MAX)}.jpg`,
   message: createMsg(),
   name: names[getRandomInteger(0, names.length - 1)]
 });
 
-const createComments = () => Array.from({length: getRandomInteger(commentsRange.MIN,commentsRange.MAX)}, (_, index) => createComment(index));
+const createComments = () => Array.from({length: getRandomInteger(commentsRange.MIN,commentsRange.MAX)}, (_, index) => createComment(index + 1));
 
 
 const createPhoto = (id) => ({
-  id: ++id,
+  id: id,
   url: `photos/${id}.jpg`,
   description: description[getRandomInteger(0, description.length - 1)],
   likes: getRandomInteger(likesRange.MIN, likesRange.MAX),
   comments: createComments()
 });
 
-const createPhotos = () => Array.from({length: PHOTO_COUNT}, (_, index) => createPhoto(index));
+const createPhotos = () => Array.from({length: PHOTO_COUNT}, (_, index) => createPhoto(index + 1));
 
 createPhotos();
