@@ -69,5 +69,7 @@ const createPhoto = (id) => ({
 });
 
 const createPhotos = () => Array.from({length: PHOTO_COUNT}, (_, index) => createPhoto(index + 1));
+const thumbnailsList = createPhotos();
 
 export {createPhotos};
+export {thumbnailsList};
