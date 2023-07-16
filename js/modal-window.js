@@ -21,13 +21,14 @@ const commentsLoader = bigPictureContainer.querySelector('.comments-loader');
 let commentsShown = 0;
 let comments = [];
 
-
+//открываем модальное окно, убираем хиден
 const openUserModal = () => {
   bigPictureContainer.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
+//закрываем модалку, добавляем хиден, обнуляем комменты для открытия другой модалки
 const closeUserModal = () => {
   bigPictureContainer.classList.add('hidden');
   body.classList.remove('modal-open');
@@ -35,17 +36,18 @@ const closeUserModal = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
+//именно в этом случае невозможно стрелочную - либо декларативно объявлять функцию, либо в модуль выносить
 function onDocumentKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeUserModal();
   }
 }
-
+//закрываем по кнопке-крестику в модалке
 bigImageCancel.addEventListener('click', () =>
   closeUserModal()
 );
-
+//заполняем один коммент через шаблон
 const showComment = ({avatar, name, message}) => {
   const newComment = commentItem.cloneNode(true);
   newComment.querySelector('.social__picture').src = avatar;
@@ -53,7 +55,8 @@ const showComment = ({avatar, name, message}) => {
   newComment.querySelector('.social__text').textContent = message;
   return newComment;
 };
-
+//отрисовываем комменты по принципу: после нажатия "загрузить ещё" всё стираем
+// и перерисовываем с учётом новой порции комментов
 const renderComments = () => {
   commentsShown += COMMENTS_PER_PORTION;
 
@@ -74,11 +77,11 @@ const renderComments = () => {
   commentsContainer.append(fragment);
   commentsCount.innerHTML = `${commentsShown} из <span class="comments-count">${comments.length}</span> комментариев`;
 };
-
+//переименовываем под критерий названий обработчиков событий
 const onCommentsLoaderClick = () => {
   renderComments();
 };
-
+//заполняем и показываем через деструктуризацию модалку
 const showBigPicture = ({url, likes, description}) => {
   openUserModal();
   bigImage.src = url;
@@ -87,7 +90,9 @@ const showBigPicture = ({url, likes, description}) => {
   bigImageCaption.textContent = description;
   commentsLoader.addEventListener('click', onCommentsLoaderClick);
 };
-
+//связываем через добавления атрибута миниатюрам miniatures и modal-window
+// навешиваем на родителя - ссылка <a> с классом .picture обработчик по клику (делигируем)
+//через closest всплываем от элемента галереи с атрибутом data-thumbnail-id до родителя
 const renderBigPicture = () => {
   thumbnailsContainer.addEventListener('click', (evt) => {
     const thumbnailElement = evt.target.closest('[data-thumbnail-id]');
@@ -95,12 +100,12 @@ const renderBigPicture = () => {
       return;
     }
     evt.preventDefault();
-
+    //ищем по id нужный элемент из массива данных
     const picture = thumbnailsList.find(
-      (item) => item.id === +(thumbnailElement.dataset.thumbnailId)
+      (item) => item.id === +thumbnailElement.dataset.thumbnailId //плюс переводит в число дата атрибут
     );
-
-    comments = Array.from(picture.comments);
+    //используем найденный элемент для отрисовки и модалки и рендера комментов
+    comments = Array.from(picture.comments);//
     renderComments(comments);
     showBigPicture(picture);
   });
