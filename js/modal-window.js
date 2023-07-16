@@ -22,25 +22,30 @@ let commentsShown = 0;
 let comments = [];
 
 
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closeUserModal();
-  }
-};
-
-function openUserModal () {
+const openUserModal = () => {
   bigPictureContainer.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
-}
+};
 
-function closeUserModal () {
+const closeUserModal = () => {
   bigPictureContainer.classList.add('hidden');
   body.classList.remove('modal-open');
   commentsShown = 0;
   document.removeEventListener('keydown', onDocumentKeydown);
+};
+
+function onDocumentKeydown (evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeUserModal();
+  }
 }
+
+bigImageCancel.addEventListener('click', () =>
+  closeUserModal()
+);
+
 const showComment = ({avatar, name, message}) => {
   const newComment = commentItem.cloneNode(true);
   newComment.querySelector('.social__picture').src = avatar;
@@ -54,7 +59,6 @@ const renderComments = () => {
 
   if (commentsShown >= comments.length) {
     commentsLoader.classList.add('hidden');
-    commentsLoader.removeEventListener('click', onCommentsLoaderClick);
     commentsShown = comments.length;
   } else {
     commentsLoader.classList.remove('hidden');
@@ -71,11 +75,11 @@ const renderComments = () => {
   commentsCount.innerHTML = `${commentsShown} из <span class="comments-count">${comments.length}</span> комментариев`;
 };
 
-function onCommentsLoaderClick () {
+const onCommentsLoaderClick = () => {
   renderComments();
-}
+};
 
-const showBigPicture = (url, likes, description) => {
+const showBigPicture = ({url, likes, description}) => {
   openUserModal();
   bigImage.src = url;
   bigImageLikesCount.textContent = likes;
@@ -102,9 +106,4 @@ const renderBigPicture = () => {
   });
 };
 
-bigImageCancel.addEventListener('click', () =>
-  closeUserModal()
-);
-
 export {renderBigPicture};
-

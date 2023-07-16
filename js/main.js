@@ -1,4 +1,6 @@
-import './data.js';
-import './miniatures.js';
-import './modal-window.js';
+import {thumbnailsList} from './data.js';
+import {renderMiniatures} from'./miniatures.js';
+import {renderBigPicture} from'./modal-window.js';
 
+renderMiniatures(thumbnailsList);
+renderBigPicture();
