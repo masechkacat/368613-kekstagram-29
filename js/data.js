@@ -52,7 +52,7 @@ const createMsg = () => {
 
 const createComment = (id) => ({
   id: id,
-  avatar: `photos/${getRandomInteger(avatarRange.MIN,avatarRange.MAX)}.jpg`,
+  avatar: `img/avatar-${getRandomInteger(avatarRange.MIN,avatarRange.MAX)}.svg`,
   message: createMsg(),
   name: names[getRandomInteger(0, names.length - 1)]
 });
@@ -69,5 +69,6 @@ const createPhoto = (id) => ({
 });
 
 const createPhotos = () => Array.from({length: PHOTO_COUNT}, (_, index) => createPhoto(index + 1));
+const thumbnailsList = createPhotos();
 
-export {createPhotos};
+export {thumbnailsList};

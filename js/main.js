@@ -1,4 +1,6 @@
-import { createPhotos } from './data.js';
-import { getMiniatures } from './miniatures.js';
+import {thumbnailsList} from './data.js';
+import {renderMiniatures} from'./miniatures.js';
+import {renderBigPicture} from'./modal-window.js';
 
-getMiniatures(createPhotos());
+renderMiniatures(thumbnailsList);
+renderBigPicture();
