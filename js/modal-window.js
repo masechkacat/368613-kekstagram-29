@@ -92,7 +92,7 @@ const showBigPicture = ({url, likes, description}) => {
 };
 //связываем через добавления атрибута миниатюрам miniatures и modal-window
 // навешиваем на родителя - ссылка <a> с классом .picture обработчик по клику (делигируем)
-//через closest всплываем от элемента галереи с атрибутом data-thumbnail-id до родителя
+//через closest всплываем от элемента галереи до родителя с добавленным  атрибутом data-thumbnail-id
 const renderBigPicture = () => {
   thumbnailsContainer.addEventListener('click', (evt) => {
     const thumbnailElement = evt.target.closest('[data-thumbnail-id]');
@@ -111,4 +111,4 @@ const renderBigPicture = () => {
   });
 };
 
-export {renderBigPicture};
+export {renderBigPicture, onDocumentKeydown};
