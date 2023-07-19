@@ -1,4 +1,4 @@
-import { onDocumentKeydown } from './modal-window.js';
+import { isEscapeKey } from './util.js';
 
 const MAX_TAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -23,18 +23,15 @@ const disableSendButton = () => pristine.validate()
   ? sendFormButton.removeAttribute('disabled')
   : sendFormButton.setAttribute('disabled', true);
 
-const closeModal = () => {
-  if (document.activeElement === hashtagField || document.activeElement === commentField) {
-    return;
-  }
+const isTextFieldFocused = () =>
+  document.activeElement === hashtagField ||
+  document.activeElement === commentField;
 
-  uploadOverlay.classList.add('hidden');
-  body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onDocumentKeydown);
-  uploadCancelButton.removeEventListener('click', closeModal);
-  hashtagField.removeEventListener('input', disableSendButton);
-  uploadForm.reset();
-  pristine.reset();
+const onDocumentKeydown = (evt) => {
+  if (isEscapeKey && !isTextFieldFocused()) {
+    evt.preventDefault();
+    closeModal();
+  }
 };
 
 const openModal = () => {
@@ -44,6 +41,17 @@ const openModal = () => {
   uploadCancelButton.addEventListener('click', closeModal);
   hashtagField.addEventListener('input', disableSendButton);
 };
+
+function closeModal () {
+  uploadOverlay.classList.add('hidden');
+  body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onDocumentKeydown);
+  uploadCancelButton.removeEventListener('click', closeModal);
+  hashtagField.removeEventListener('input', disableSendButton);
+  uploadForm.reset();
+  pristine.reset();
+}
+
 
 const isValidTagsCount = (tags) => tags.length <= MAX_TAG_COUNT;
 
