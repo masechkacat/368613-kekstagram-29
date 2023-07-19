@@ -3,10 +3,11 @@ const SCALE_STEP = 25;
 const MIN_SCALE = 25;
 const MAX_SCALE = 100;
 
-const smallerButtonElement = document.querySelector('.scale__control--smaller');
-const biggerButtonElement = document.querySelector('.scale__control--bigger');
-const scaleFieldElement = document.querySelector('.scale__control--value');
-const imageElement = document.querySelector('.img-upload__preview img');
+const modalElement = document.querySelector ('.img-upload')
+const smallerButtonElement = modalElement.querySelector('.scale__control--smaller');
+const biggerButtonElement = modalElement.querySelector('.scale__control--bigger');
+const scaleFieldElement = modalElement.querySelector('.scale__control--value');
+const imageElement = modalElement.querySelector('.img-upload__preview img');
 
 let currentScaleValue = parseInt(scaleFieldElement.value, 10);
 

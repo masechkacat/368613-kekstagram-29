@@ -1,3 +1,5 @@
+import { resetZoom } from './skale.js';
+
 const MAX_TAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const ErrorText = {
@@ -52,6 +54,7 @@ function closeModal () {
   hashtagField.removeEventListener('input', disableSendButton);
   uploadForm.reset();
   pristine.reset();
+  resetZoom();
 }
 
 const normalizeTags = (tags) => tags.trim().split(' ').filter((tag) => Boolean(tag.length));
