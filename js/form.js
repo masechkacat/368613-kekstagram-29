@@ -62,7 +62,7 @@ const isValidTagsCount = (value) => normalizeTags(value).length <= MAX_TAG_COUNT
 
 const isUniqueTags = (value) => {
   const lowerCaseTags = normalizeTags(value).map((tag) => tag.toLowerCase());
-  return lowerCaseTags.length === new Set(lowerCaseTags).size;
+  return lowerCaseTags.length === new Set(lowerCaseTags).size;//через метод  set проверяем есть ли повторяющиеся элементы (тк сет возвращает массив без повторяющихся эллементов)
 };
 
 pristine.addValidator(
