@@ -8,7 +8,7 @@ const thumbnailElements = ({url, description, likes, comments, id}) => {
   thumbnailElement.querySelector('.picture__img').alt = description;
   thumbnailElement.querySelector('.picture__likes').textContent = likes;
   thumbnailElement.querySelector('.picture__comments').textContent = comments.length;
-  thumbnailElement.dataset.thumbnailId = id;
+  thumbnailElement.dataset.thumbnailId = id; //завели для делегирования, добавляет атрибут data-thumbnail-id к миниатюре
 
   return thumbnailElement;
 };
