@@ -1,4 +1,4 @@
-import { onDocumentKeydown } from './modal-window';
+import { onDocumentKeydown } from './modal-window.js';
 
 const MAX_TAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -74,3 +74,4 @@ sendFormButton.addEventListener('input', (evt) => {
   evt.preventDefault();
   pristine.validate();
 });
+export {openModal};
