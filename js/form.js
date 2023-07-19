@@ -4,6 +4,7 @@ const MAX_TAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const ERROR_TAGS_MESSAGE = 'Некорректный хештег';
 
+const body = document.body;
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadControl = uploadForm.querySelector('#upload-file');
 const sendFormButton = uploadForm.querySelector('.img-upload__submit');
@@ -28,7 +29,7 @@ const closeModal = () => {
   }
 
   uploadOverlay.classList.add('hidden');
-  document.classList.remove('modal-open');
+  body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
   uploadCancelButton.removeEventListener('click', closeModal);
   hashtagField.removeEventListener('input', disableSendButton);
@@ -38,7 +39,7 @@ const closeModal = () => {
 
 const openModal = () => {
   uploadOverlay.classList.remove('hidden');
-  document.classList.add('modal-open');
+  body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
   uploadCancelButton.addEventListener('click', closeModal);
   hashtagField.addEventListener('input', disableSendButton);
