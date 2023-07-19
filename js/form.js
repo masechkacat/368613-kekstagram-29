@@ -1,8 +1,8 @@
-import { isEscapeKey } from './util.js';
-
 const MAX_TAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
-const ERROR_TAGS_MESSAGE = 'Некорректный хештег';
+const INVALID_COUNT = 'Не более 5ти хэштегов';
+const INVALID_PATTERN = 'Хэштег должен начинаться с # и состоять из букв и чисел';
+const NOT_UNIQUE = 'Такой хэштег уже был';
 
 const body = document.body;
 const uploadForm = document.querySelector('.img-upload__form');
@@ -16,7 +16,7 @@ const commentField = document.querySelector('.text__description');
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__field-wrapper__error'
+  //errorTextClass: 'img-upload__field-wrapper__error' //описать стиль в css если будет время
 });
 
 const disableSendButton = () => pristine.validate()
@@ -28,7 +28,7 @@ const isTextFieldFocused = () =>
   document.activeElement === commentField;
 
 const onDocumentKeydown = (evt) => {
-  if (isEscapeKey && !isTextFieldFocused()) {
+  if (evt.key === 'Escape' && !isTextFieldFocused()) {
     evt.preventDefault();
     closeModal();
   }
@@ -52,27 +52,39 @@ function closeModal () {
   pristine.reset();
 }
 
+const normalizeTags = (tags) => tags.trim().split(' ').filter((tag) => Boolean(tag.length));
 
-const isValidTagsCount = (tags) => tags.length <= MAX_TAG_COUNT;
+const isValidTag = (value) => normalizeTags(value).every((tag) => VALID_SYMBOLS.test(tag));
 
-const hasUniqueTags = (tags) => {
-  const lowerCaseTags = tags.map((tag) => tag.toLowerCase());
-  return lowerCaseTags.length === new Set(tags).size;
-};
+const isValidTagsCount = (value) => normalizeTags(value).length <= MAX_TAG_COUNT;
 
-const isValidTag = (tag) => VALID_SYMBOLS.test(tag);
-
-const validateTags = (value) => {
-  const newTags = value
-    .replace(/ +/g, ' ').trim()
-    .split(' ');
-  return isValidTagsCount(newTags) && hasUniqueTags(newTags) && newTags.every(isValidTag);
+const isUniqueTags = (value) => {
+  const lowerCaseTags = normalizeTags(value).map((tag) => tag.toLowerCase());
+  return lowerCaseTags.length === new Set(lowerCaseTags).size;
 };
 
 pristine.addValidator(
   hashtagField,
-  validateTags,
-  ERROR_TAGS_MESSAGE
+  isValidTagsCount,
+  INVALID_COUNT,
+  3,
+  true
+);
+
+pristine.addValidator(
+  hashtagField,
+  isValidTag,
+  INVALID_PATTERN,
+  2,
+  true
+);
+
+pristine.addValidator(
+  hashtagField,
+  isUniqueTags,
+  NOT_UNIQUE,
+  1,
+  true
 );
 
 uploadControl.addEventListener('change', () =>
@@ -83,4 +95,5 @@ sendFormButton.addEventListener('input', (evt) => {
   evt.preventDefault();
   pristine.validate();
 });
+
 export {openModal};
