@@ -1,8 +1,10 @@
 const MAX_TAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
-const INVALID_COUNT = 'Не более 5ти хэштегов';
-const INVALID_PATTERN = 'Хэштег должен начинаться с # и состоять из букв и чисел';
-const NOT_UNIQUE = 'Такой хэштег уже был';
+const ErrorText = {
+  INVALID_COUNT: `Не более ${MAX_TAG_COUNT} хэштегов`,
+  INVALID_PATTERN: 'Хэштег должен начинаться с # и состоять из букв и чисел',
+  NOT_UNIQUE: 'Такой хэштег уже был',
+};
 
 const body = document.body;
 const uploadForm = document.querySelector('.img-upload__form');
@@ -66,7 +68,7 @@ const isUniqueTags = (value) => {
 pristine.addValidator(
   hashtagField,
   isValidTagsCount,
-  INVALID_COUNT,
+  ErrorText.INVALID_COUNT,
   3,
   true
 );
@@ -74,7 +76,7 @@ pristine.addValidator(
 pristine.addValidator(
   hashtagField,
   isValidTag,
-  INVALID_PATTERN,
+  ErrorText.INVALID_PATTERN,
   2,
   true
 );
@@ -82,7 +84,7 @@ pristine.addValidator(
 pristine.addValidator(
   hashtagField,
   isUniqueTags,
-  NOT_UNIQUE,
+  ErrorText.NOT_UNIQUE,
   1,
   true
 );
