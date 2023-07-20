@@ -1,4 +1,5 @@
 import { resetZoom } from './skale.js';
+import { resetFilters } from './slider.js';
 
 const MAX_TAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -55,6 +56,7 @@ function closeModal () {
   uploadForm.reset();
   pristine.reset();
   resetZoom();
+  resetFilters();
 }
 
 const normalizeTags = (tags) => tags.trim().split(' ').filter((tag) => Boolean(tag.length));
