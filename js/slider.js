@@ -1,127 +1,160 @@
-const DEFAULT_FILTER = {
+import { imageElement } from './skale.js';
+
+const defaultFilter = {
   name: 'none',
   style: 'none',
   min: 0,
-  max: 100,
-  step: 1,
-  unit: ''
+  max: 0,
+  step: 0,
+  unit: '',
 };
 
-const FILTERS = [
-  {
-    name: 'chrome',
-    style: 'grayscale',
-    min: 0,
-    max: 1,
-    step: 0.1,
-    unit: ''
-  },
-  {
-    name: 'sepia',
-    style: 'sepia',
-    min: 0,
-    max: 1,
-    step: 0.1,
-    unit: ''
-  },
-  {
-    name: 'marvin',
-    style: 'invert',
-    min: 0,
-    max: 100,
-    step: 1,
-    unit: '%'
-  },
-  {
-    name: 'phobos',
-    style: 'blur',
-    min: 0,
-    max: 3,
-    step: 0.1,
-    unit: 'px',
-  },
-  {
-    name: 'heat',
-    style: 'brightness',
-    min: 1,
-    max: 3,
-    step: 0.1,
-    unit: ''
-  }
-];
+const chromeFilter = {
+  name: 'chrome',
+  style: 'grayscale',
+  min: 0,
+  max: 1,
+  step: 0.1,
+  unit: '',
+};
 
-const imageElement = document.querySelector('.img-upload__preview img');
-const filtersContainer = document.querySelector('.effects__list');
+const sepiaFilter = {
+  name: 'sepia',
+  style: 'sepia',
+  min: 0,
+  max: 1,
+  step: 0.1,
+  unit: '',
+};
+
+const marvinFilter = {
+  name: 'marvin',
+  style: 'invert',
+  min: 0,
+  max: 100,
+  step: 1,
+  unit: '%',
+};
+
+const phobosFilter = {
+  name: 'phobos',
+  style: 'blur',
+  min: 0,
+  max: 3,
+  step: 0.1,
+  unit: 'px',
+};
+
+const heatFilter = {
+  name: 'heat',
+  style: 'brightness',
+  min: 1,
+  max: 3,
+  step: 0.1,
+  unit: '',
+};
+
+
+const DEFAULT_EFFECT = defaultFilter;
+
+const effectsElement = document.querySelector('.effects');
 const sliderElement = document.querySelector('.effect-level__slider');
-const sliderContainerElement = document.querySelector('.img-upload__effect-level');
-const filterLevel = document.querySelector('.effect-level__value');
+const sliderContainer = document.querySelector('.img-upload__effect-level');
+const effectValue = document.querySelector('.effect-level__value');
 
-let chosenFilter = DEFAULT_FILTER;
+let actualEffect = DEFAULT_EFFECT;
 
-const isDefault = () => chosenFilter === DEFAULT_FILTER;
+const isDefault = () => actualEffect === DEFAULT_EFFECT;
 
 const hideSlider = () => {
-  sliderContainerElement.classList.add('hidden');
+  sliderContainer.classList.add('hidden');
 };
 
 const showSlider = () => {
-  sliderContainerElement.classList.remove('hidden');
+  sliderContainer.classList.remove('hidden');
 };
 
 const updateSlider = () => {
   sliderElement.noUiSlider.updateOptions({
     range: {
-      min: chosenFilter.min,
-      max: chosenFilter.max,
+      min: actualEffect.min,
+      max: actualEffect.max
     },
-    step: chosenFilter.step,
-    start: chosenFilter.max,
+    step: actualEffect.step,
+    start: actualEffect.max,
   });
 
-  if(isDefault()){
+  if (isDefault()) {
     hideSlider();
   } else {
     showSlider();
   }
 };
 
-const onFiltersChange = (evt) => {
-  if(!evt.target.classList.contains('effects__radio')) {
-    return;
+const onEffectsChange = (evt) => {
+  if (evt.target.closest('#effect-chrome')) {
+    actualEffect = chromeFilter;
+    imageElement.className = `effects__preview--${actualEffect.name}`;
+    updateSlider();
   }
-  chosenFilter = FILTERS.find((filter) => filter.name === evt.target.value);
-  imageElement.className = `effects__preview--${chosenFilter.name}`;
-  updateSlider();
+
+  if (evt.target.closest('#effect-sepia')) {
+    actualEffect = sepiaFilter;
+    imageElement.className = `effects__preview--${actualEffect.name}`;
+    updateSlider();
+  }
+
+  if (evt.target.closest('#effect-marvin')) {
+    actualEffect = marvinFilter;
+    imageElement.className = `effects__preview--${actualEffect.name}`;
+    updateSlider();
+  }
+
+  if (evt.target.closest('#effect-phobos')) {
+    actualEffect = phobosFilter;
+    imageElement.className = `effects__preview--${actualEffect.name}`;
+    updateSlider();
+  }
+
+  if (evt.target.closest('#effect-heat')) {
+    actualEffect = heatFilter;
+    imageElement.className = `effects__preview--${actualEffect.name}`;
+    updateSlider();
+  }
+
+  if (evt.target.closest('#effect-none')) {
+    actualEffect = defaultFilter;
+    imageElement.className = `effects__preview--${actualEffect.name}`;
+    updateSlider();
+  }
 };
 
-const onSliderUpdate = () =>{
+const onSliderUpdate = () => {
   const sliderValue = sliderElement.noUiSlider.get();
   imageElement.style.filter = isDefault()
-    ? DEFAULT_FILTER.style
-    : `${chosenFilter.style}(${sliderValue}${chosenFilter.unit})`;
-  filterLevel.value = sliderValue;
+    ? DEFAULT_EFFECT.style
+    : `${actualEffect.style}(${sliderValue}${actualEffect.unit})`;
+  effectValue.value = sliderValue;
 };
 
-const resetFilters = () => {
-  chosenFilter = DEFAULT_FILTER;
+const resetEffects = () => {
+  actualEffect = DEFAULT_EFFECT;
   updateSlider();
 };
 
 noUiSlider.create(sliderElement, {
   range: {
-    min: DEFAULT_FILTER.min,
-    max: DEFAULT_FILTER.max,
+    min: DEFAULT_EFFECT.min,
+    max: DEFAULT_EFFECT.max,
   },
-  start: DEFAULT_FILTER.max,
-  step: DEFAULT_FILTER.step,
-  connect:'lower',
+  start: DEFAULT_EFFECT.max,
+  step: DEFAULT_EFFECT.step,
+  connect: 'lower',
 });
 
 hideSlider();
 
-const getFilters = () => {
-  sliderElement.noUiSlider.on('update', onSliderUpdate);
-  filtersContainer.addEventListener('change', onFiltersChange);
-};
+effectsElement.addEventListener('change', onEffectsChange);
+sliderElement.noUiSlider.on('update', onSliderUpdate);
 
-export {resetFilters, getFilters};
+export {resetEffects};

@@ -1,5 +1,5 @@
 import { resetZoom } from './skale.js';
-import { resetFilters, getFilters } from './slider.js';
+import { resetEffects } from './slider.js';
 
 const MAX_TAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -45,7 +45,6 @@ const openModal = () => {
   document.addEventListener('keydown', onDocumentKeydown);
   uploadCancelButton.addEventListener('click', closeModal);
   hashtagField.addEventListener('input', disableSendButton);
-  getFilters();
 };
 
 function closeModal () {
@@ -57,7 +56,7 @@ function closeModal () {
   uploadForm.reset();
   pristine.reset();
   resetZoom();
-  resetFilters();
+  resetEffects();
 }
 
 const normalizeTags = (tags) => tags.trim().split(' ').filter((tag) => Boolean(tag.length));

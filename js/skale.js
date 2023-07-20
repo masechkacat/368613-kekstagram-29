@@ -37,4 +37,4 @@ const resetZoom = () => scaleImage(DEFAULT_SCALE);
 smallerButtonElement.addEventListener('click', onSmallerButtonClick);
 biggerButtonElement.addEventListener('click', onBiggerButtonClick);
 
-export {resetZoom};
+export {resetZoom, imageElement};
