@@ -119,7 +119,9 @@ noUiSlider.create(sliderElement, {
 
 hideSlider();
 
-sliderElement.noUiSlider.on('update', onSliderUpdate);
-filtersContainer.addEventListener('change', onFiltersChange);
+const getFilters = () => {
+  sliderElement.noUiSlider.on('update', onSliderUpdate);
+  filtersContainer.addEventListener('change', onFiltersChange);
+};
 
-export {resetFilters};
+export {resetFilters, getFilters};

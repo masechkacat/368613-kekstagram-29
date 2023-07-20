@@ -1,5 +1,5 @@
 import { resetZoom } from './skale.js';
-import { resetFilters } from './slider.js';
+import { resetFilters, getFilters } from './slider.js';
 
 const MAX_TAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -45,6 +45,7 @@ const openModal = () => {
   document.addEventListener('keydown', onDocumentKeydown);
   uploadCancelButton.addEventListener('click', closeModal);
   hashtagField.addEventListener('input', disableSendButton);
+  getFilters();
 };
 
 function closeModal () {
