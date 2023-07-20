@@ -91,14 +91,15 @@ pristine.addValidator(
   1,
   true
 );
-
-uploadControl.addEventListener('change', () =>
-  openModal()
-);
+const openForm = () => {
+  uploadControl.addEventListener('change', () =>
+    openModal()
+  );
+};
 
 sendFormButton.addEventListener('input', (evt) => {
   evt.preventDefault();
   pristine.validate();
 });
 
-export {openModal};
+export {openForm};
