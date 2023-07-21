@@ -18,6 +18,9 @@ const load = (route, onFail, method = Method.GET, body = null) =>
       onFail();
     });
 
-const getData = () => load(`${BASE_URL}${DATA_URL}`, showAlert);
+const getData = () => load(`${BASE_URL}${DATA_URL}`);
 
-const sendData = (body) => load(`${BASE_URL}`, showErrorMessage, Method.POST, body);
+const sendData = (body) => load(`${BASE_URL}`, Method.POST, body);
+
+export {getData, sendData};
+
