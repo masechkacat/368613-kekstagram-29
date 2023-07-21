@@ -104,4 +104,4 @@ sendFormButton.addEventListener('input', (evt) => {
   pristine.validate();
 });
 
-export {openForm};
+export {openForm, closeModal, onDocumentKeydown};
