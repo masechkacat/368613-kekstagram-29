@@ -1,3 +1,6 @@
+import { resetZoom } from './skale.js';
+import { resetEffects } from './slider.js';
+
 const MAX_TAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const ErrorText = {
@@ -52,6 +55,8 @@ function closeModal () {
   hashtagField.removeEventListener('input', disableSendButton);
   uploadForm.reset();
   pristine.reset();
+  resetZoom();
+  resetEffects();
 }
 
 const normalizeTags = (tags) => tags.trim().split(' ').filter((tag) => Boolean(tag.length));
@@ -62,7 +67,7 @@ const isValidTagsCount = (value) => normalizeTags(value).length <= MAX_TAG_COUNT
 
 const isUniqueTags = (value) => {
   const lowerCaseTags = normalizeTags(value).map((tag) => tag.toLowerCase());
-  return lowerCaseTags.length === new Set(lowerCaseTags).size;
+  return lowerCaseTags.length === new Set(lowerCaseTags).size;//через метод  set проверяем есть ли повторяющиеся элементы (тк сет возвращает массив без повторяющихся эллементов)
 };
 
 pristine.addValidator(
@@ -88,14 +93,15 @@ pristine.addValidator(
   1,
   true
 );
-
-uploadControl.addEventListener('change', () =>
-  openModal()
-);
+const openForm = () => {
+  uploadControl.addEventListener('change', () =>
+    openModal()
+  );
+};
 
 sendFormButton.addEventListener('input', (evt) => {
   evt.preventDefault();
   pristine.validate();
 });
 
-export {openModal};
+export {openForm};
