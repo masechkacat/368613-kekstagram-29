@@ -1,5 +1,5 @@
 import {isEscapeKey} from './util.js';
-import {thumbnailsList} from './data.js';
+//import {thumbnailsList} from './data.js';
 
 const COMMENTS_PER_PORTION = 5;
 
@@ -93,7 +93,7 @@ const showBigPicture = ({url, likes, description}) => {
 //связываем через добавления атрибута миниатюрам miniatures и modal-window
 // навешиваем на родителя - ссылка <a> с классом .picture обработчик по клику (делигируем)
 //через closest всплываем от элемента галереи до родителя с добавленным  атрибутом data-thumbnail-id
-const renderBigPicture = () => {
+const renderBigPicture = (data) => {
   thumbnailsContainer.addEventListener('click', (evt) => {
     const thumbnailElement = evt.target.closest('[data-thumbnail-id]');
     if (!thumbnailElement) {
@@ -101,7 +101,7 @@ const renderBigPicture = () => {
     }
     evt.preventDefault();
     //ищем по id нужный элемент из массива данных
-    const picture = thumbnailsList.find(
+    const picture = data.find(
       (item) => item.id === +thumbnailElement.dataset.thumbnailId //плюс переводит в число дата атрибут
     );
     //используем найденный элемент для отрисовки и модалки и рендера комментов

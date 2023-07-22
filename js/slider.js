@@ -92,42 +92,40 @@ const updateSlider = () => {
 };
 
 const onEffectsChange = (evt) => {
-  if (evt.target.closest('#effect-chrome')) {
-    actualEffect = chromeFilter;
-    imageElement.className = `effects__preview--${actualEffect.name}`;
-    updateSlider();
-  }
-
-  if (evt.target.closest('#effect-sepia')) {
-    actualEffect = sepiaFilter;
-    imageElement.className = `effects__preview--${actualEffect.name}`;
-    updateSlider();
-  }
-
-  if (evt.target.closest('#effect-marvin')) {
-    actualEffect = marvinFilter;
-    imageElement.className = `effects__preview--${actualEffect.name}`;
-    updateSlider();
-  }
-
-  if (evt.target.closest('#effect-phobos')) {
-    actualEffect = phobosFilter;
-    imageElement.className = `effects__preview--${actualEffect.name}`;
-    updateSlider();
-  }
-
-  if (evt.target.closest('#effect-heat')) {
-    actualEffect = heatFilter;
-    imageElement.className = `effects__preview--${actualEffect.name}`;
-    updateSlider();
-  }
-
-  if (evt.target.closest('#effect-none')) {
-    actualEffect = defaultFilter;
-    imageElement.className = `effects__preview--${actualEffect.name}`;
-    updateSlider();
+  switch (evt.target.value) {
+    case 'chrome':
+      actualEffect = chromeFilter;
+      imageElement.className = `effects__preview--${actualEffect.name}`;
+      updateSlider();
+      break;
+    case 'sepia':
+      actualEffect = sepiaFilter;
+      imageElement.className = `effects__preview--${actualEffect.name}`;
+      updateSlider();
+      break;
+    case 'marvin':
+      actualEffect = marvinFilter;
+      imageElement.className = `effects__preview--${actualEffect.name}`;
+      updateSlider();
+      break;
+    case 'phobos':
+      actualEffect = phobosFilter;
+      imageElement.className = `effects__preview--${actualEffect.name}`;
+      updateSlider();
+      break;
+    case 'heat':
+      actualEffect = heatFilter;
+      imageElement.className = `effects__preview--${actualEffect.name}`;
+      updateSlider();
+      break;
+    case 'none':
+      actualEffect = defaultFilter;
+      imageElement.className = `effects__preview--${actualEffect.name}`;
+      updateSlider();
+      break;
   }
 };
+
 
 const onSliderUpdate = () => {
   const sliderValue = sliderElement.noUiSlider.get();
@@ -158,3 +156,42 @@ effectsElement.addEventListener('change', onEffectsChange);
 sliderElement.noUiSlider.on('update', onSliderUpdate);
 
 export {resetEffects};
+
+//начальнаы вариант на ифах
+/*if (evt.target.closest('#effect-chrome')) {
+    actualEffect = chromeFilter;
+    imageElement.className = `effects__preview--${actualEffect.name}`;
+    updateSlider();
+
+
+  if (evt.target.closest('#effect-sepia')) {
+    actualEffect = sepiaFilter;
+    imageElement.className = `effects__preview--${actualEffect.name}`;
+    updateSlider();
+  }
+console.log (evt.target.value);
+
+  if (evt.target.closest('#effect-marvin')) {
+    actualEffect = marvinFilter;
+    imageElement.className = `effects__preview--${actualEffect.name}`;
+    updateSlider();
+  }
+
+  if (evt.target.closest('#effect-phobos')) {
+    actualEffect = phobosFilter;
+    imageElement.className = `effects__preview--${actualEffect.name}`;
+    updateSlider();
+  }
+
+  if (evt.target.closest('#effect-heat')) {
+    actualEffect = heatFilter;
+    imageElement.className = `effects__preview--${actualEffect.name}`;
+    updateSlider();
+  }
+
+  if (evt.target.closest('#effect-none')) {
+    actualEffect = defaultFilter;
+    imageElement.className = `effects__preview--${actualEffect.name}`;
+    updateSlider();
+  }
+};*/
