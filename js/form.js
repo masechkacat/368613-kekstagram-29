@@ -1,5 +1,7 @@
 import { resetZoom } from './skale.js';
 import { resetEffects } from './slider.js';
+import { showSuccessMessage } from './alerts.js';
+import { sendData } from './api.js';
 
 const MAX_TAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -93,15 +95,25 @@ pristine.addValidator(
   1,
   true
 );
+
+uploadForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+
+  const isValid = pristine.validate();
+  if (isValid) {
+    const formData = new FormData(evt.target);
+    sendData(formData)
+      .then(
+        showSuccessMessage()
+      );
+  }
+});
+
+
 const openForm = () => {
   uploadControl.addEventListener('change', () =>
     openModal()
   );
 };
-
-sendFormButton.addEventListener('input', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
 
 export {openForm, closeModal, onDocumentKeydown};

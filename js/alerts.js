@@ -1,4 +1,4 @@
-import {closeModal, onDocumentKeydown} from 'form.js';
+import {closeModal, onDocumentKeydown} from './form.js';
 
 const body = document.body;
 const successMessageTemplate = document.querySelector('#success').content;
@@ -56,3 +56,5 @@ const showErrorMessage = () => {
 };
 
 createMessages();
+
+export {showErrorMessage, showSuccessMessage};
