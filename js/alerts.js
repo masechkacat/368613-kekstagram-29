@@ -19,12 +19,18 @@ const createMessages = () => {
 const closeSuccessMessage = () => {
   document.querySelector('.success').classList.add('hidden');
   successButton.removeEventListener('click', closeSuccessMessage);
+  document.removeEventListener('keydown', onDocumentErrorKeydown);
+  document.removeEventListener('click', onDocumentClick);
+  document.addEventListener('keydown', onDocumentKeydown);
   closeModal();
 };
 
 const showSuccessMessage = () => {
   document.querySelector('.success').classList.remove('hidden');
   successButton.addEventListener('click', closeSuccessMessage);
+  document.addEventListener('keydown', onDocumentErrorKeydown);
+  document.addEventListener('click', onDocumentClick);
+  document.removeEventListener('keydown', onDocumentKeydown);
 };
 
 const onDocumentErrorKeydown = (evt) => {
@@ -34,7 +40,7 @@ const onDocumentErrorKeydown = (evt) => {
 };
 
 const onDocumentClick = (evt) => {
-  if(evt.target.classList.contains('error')){
+  if(evt.target.classList.contains('error' || 'success')){
     closeErrorMessage();
   }
 };
