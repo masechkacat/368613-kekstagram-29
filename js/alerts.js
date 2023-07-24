@@ -17,13 +17,17 @@ const createMessages = () => {
 };
 
 const onDocumentClickSuccess = (evt) => {
-  if(evt.target.classList.contains('error')){
+  const isClickOnModal = evt.target === newSuccessMessage;
+
+  if (!isClickOnModal) {
     closeSuccessMessage();
   }
 };
 
 const onDocumentSuccessKeydown = (evt) => {
   if(evt.key === 'Escape'){
+    evt.preventDefault();
+    evt.stopPropagation();
     closeSuccessMessage();
   }
 };
@@ -47,14 +51,18 @@ const showSuccessMessage = () => {
 
 };
 
-const onDocumentErrorKeydown = (evt) => {
-  if(evt.key === 'Escape'){
+const onDocumentClickError = (evt) => {
+  const isClickOnModal = evt.target === newErrorMessage;
+
+  if (!isClickOnModal) {
     closeErrorMessage();
   }
 };
 
-const onDocumentClick = (evt) => {
-  if(evt.target.classList.contains('error')){
+const onDocumentErrorKeydown = (evt) => {
+  if(evt.key === 'Escape'){
+    evt.preventDefault();
+    evt.stopPropagation();
     closeErrorMessage();
   }
 };
@@ -63,7 +71,7 @@ function closeErrorMessage () {
   document.querySelector('.error').classList.add('hidden');
   errorButton.removeEventListener('click', closeErrorMessage);
   document.removeEventListener('keydown', onDocumentErrorKeydown);
-  document.removeEventListener('click', onDocumentClick);
+  document.removeEventListener('click', onDocumentClickError);
   document.addEventListener('keydown', onDocumentKeydown);
 }
 
@@ -71,7 +79,7 @@ const showErrorMessage = () => {
   document.querySelector('.error').classList.remove('hidden');
   errorButton.addEventListener('click', closeErrorMessage);
   document.addEventListener('keydown', onDocumentErrorKeydown);
-  document.addEventListener('click', onDocumentClick);
+  document.addEventListener('click', onDocumentClickError);
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
