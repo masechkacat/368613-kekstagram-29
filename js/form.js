@@ -23,12 +23,8 @@ const commentField = document.querySelector('.text__description');
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
-  //errorTextClass: 'img-upload__field-wrapper__error' //описать стиль в css если будет время
+  errorTextClass: 'img-upload__field-wrapper__error' //описать стиль в css если будет время
 });
-
-const disableSendButton = () => pristine.validate()
-  ? sendFormButton.removeAttribute('disabled')
-  : sendFormButton.setAttribute('disabled', true);
 
 const isTextFieldFocused = () =>
   document.activeElement === hashtagField ||
@@ -40,6 +36,11 @@ const onDocumentKeydown = (evt) => {
     closeModal();
   }
 };
+
+const disableSendButton = () => pristine.validate()
+  ? sendFormButton.removeAttribute('disabled')
+  : sendFormButton.setAttribute('disabled', true);
+
 
 const openModal = () => {
   uploadOverlay.classList.remove('hidden');
@@ -110,10 +111,10 @@ uploadForm.addEventListener('submit', (evt) => {
 });
 
 
-const openForm = () => {
-  uploadControl.addEventListener('change', () =>
-    openModal()
-  );
-};
+//const openForm = () => {
+uploadControl.addEventListener('change', () =>
+  openModal()
+);
+//};
 
-export {openForm, closeModal, onDocumentKeydown};
+export {closeModal, onDocumentKeydown};

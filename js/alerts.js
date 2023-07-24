@@ -16,21 +16,35 @@ const createMessages = () => {
   document.querySelector('.error').classList.add('hidden');
 };
 
-const closeSuccessMessage = () => {
+const onDocumentClickSuccess = (evt) => {
+  if(evt.target.classList.contains('error')){
+    closeSuccessMessage();
+  }
+};
+
+const onDocumentSuccessKeydown = (evt) => {
+  if(evt.key === 'Escape'){
+    closeSuccessMessage();
+  }
+};
+
+function closeSuccessMessage () {
   document.querySelector('.success').classList.add('hidden');
   successButton.removeEventListener('click', closeSuccessMessage);
-  document.removeEventListener('keydown', onDocumentErrorKeydown);
-  document.removeEventListener('click', onDocumentClick);
+  document.removeEventListener('keydown', onDocumentSuccessKeydown);
+  document.removeEventListener('click', onDocumentClickSuccess);
   document.addEventListener('keydown', onDocumentKeydown);
+
   closeModal();
-};
+}
 
 const showSuccessMessage = () => {
   document.querySelector('.success').classList.remove('hidden');
   successButton.addEventListener('click', closeSuccessMessage);
-  document.addEventListener('keydown', onDocumentErrorKeydown);
-  document.addEventListener('click', onDocumentClick);
+  document.addEventListener('keydown', onDocumentSuccessKeydown);
+  document.addEventListener('click', onDocumentClickSuccess);
   document.removeEventListener('keydown', onDocumentKeydown);
+
 };
 
 const onDocumentErrorKeydown = (evt) => {
@@ -40,7 +54,7 @@ const onDocumentErrorKeydown = (evt) => {
 };
 
 const onDocumentClick = (evt) => {
-  if(evt.target.classList.contains('error' || 'success')){
+  if(evt.target.classList.contains('error')){
     closeErrorMessage();
   }
 };
