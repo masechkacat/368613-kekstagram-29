@@ -19,9 +19,9 @@ const createMessages = () => {
 };
 
 const onDocumentClickSuccess = (evt) => {
-  const isClickOnModal = document.querySelector('#success-inner');
+  const isClickOnModal = evt.target.closest('[data-success-message]');
 
-  if (!isClickOnModal.contains(evt.target)) {
+  if (!isClickOnModal) {
     evt.preventDefault();
     evt.stopPropagation();
 
@@ -57,21 +57,21 @@ const showSuccessMessage = () => {
 };
 
 const onDocumentClickError = (evt) => {
-  const isClickOnModal = document.querySelector('#error-inner');
+  const isClickOnModalErr = evt.target.closest('[data-error-message]');
 
-  if (!isClickOnModal.contains(evt.target)) {
+  if (!isClickOnModalErr) {
     evt.preventDefault();
+    closeErrorMessage();
     evt.stopPropagation();
 
-    closeErrorMessage();
   }
 };
 
 const onDocumentErrorKeydown = (evt) => {
   if(evt.key === 'Escape'){
     evt.preventDefault();
-    evt.stopPropagation();
     closeErrorMessage();
+    evt.stopPropagation();
   }
 };
 
