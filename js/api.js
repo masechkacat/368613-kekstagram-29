@@ -1,6 +1,6 @@
-import { showErrorMessage } from './alerts.js';
+import { showErrorMessage, showAlert } from './alerts.js';
 
-const BASE_URL = 'https://29.javascript.pages.academy/kekstagram';
+const BASE_URL = 'https://29.javascript.pages.academy/ekstagram';
 const DATA_URL = '/data';
 
 const Method = {
@@ -20,7 +20,7 @@ const load = (route, onFail, method = Method.GET, body = null) =>
       onFail();
     });
 
-const getData = () => load(`${BASE_URL}${DATA_URL}`);
+const getData = () => load(`${BASE_URL}${DATA_URL}`, showAlert);
 
 const sendData = (body) => load(`${BASE_URL}`, showErrorMessage, Method.POST, body);
 

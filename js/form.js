@@ -97,16 +97,33 @@ pristine.addValidator(
   true
 );
 
+const SubmitButtonText = {
+  IDLE: 'Сохранить',
+  SENDING: 'Сохраняю...'
+};
+
+const blockSubmitBtn = () => {
+  sendFormButton.disabled = true;
+  sendFormButton.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitBtn = () => {
+  sendFormButton.disabled = false;
+  sendFormButton.textContent = SubmitButtonText.IDLE;
+};
+
 uploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   const isValid = pristine.validate();
   if (isValid) {
+    blockSubmitBtn();
     const formData = new FormData(evt.target);
     sendData(formData)
       .then(
-        showSuccessMessage()
-      );
+        showSuccessMessage
+      )
+      .finally(unblockSubmitBtn);
   }
 });
 
