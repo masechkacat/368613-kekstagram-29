@@ -1,6 +1,5 @@
 import { resetZoom } from './skale.js';
 import { resetEffects } from './slider.js';
-import { showSuccessMessage } from './alerts.js';
 import { sendData } from './api.js';
 
 const MAX_TAG_COUNT = 5;
@@ -112,26 +111,28 @@ const unblockSubmitBtn = () => {
   sendFormButton.textContent = SubmitButtonText.IDLE;
 };
 
-uploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-
-  const isValid = pristine.validate();
-  if (isValid) {
-    blockSubmitBtn();
-    const formData = new FormData(evt.target);
-    sendData(formData)
-      .then(
-        showSuccessMessage
-      )
-      .finally(unblockSubmitBtn);
-  }
-});
-
-
-//const openForm = () => {
 uploadControl.addEventListener('change', () =>
   openModal()
 );
-//};
 
-export {closeModal, onDocumentKeydown};
+const setUserFormSubmit = (onSuccess, onError) => {
+
+  uploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitBtn();
+      const formData = new FormData(evt.target);
+      sendData(formData)
+        .then(onSuccess)
+        .catch(() => {
+          onError();
+        }
+        )
+        .finally(unblockSubmitBtn);
+    }
+  });
+};
+
+export {setUserFormSubmit, closeModal, onDocumentKeydown};

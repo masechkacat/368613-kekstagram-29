@@ -1,4 +1,5 @@
-import {closeModal, onDocumentKeydown} from './form.js';
+import { onDocumentKeydown} from './form.js';
+import { closeModal } from './form.js';
 
 const ALERT_SHOW_TIME = 5000;
 

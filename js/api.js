@@ -1,9 +1,30 @@
-import { showErrorMessage, showAlert } from './alerts.js';
+const getData = () => fetch(
+  'https://28.javascript.pages.academy/kekstagram/data')
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error();
+    }
+    return response.json();
+  })
+  .catch(() => {
+    throw new Error('Не удалось загрузить данные. Попробуйте обновить страницу');
+  });
 
-const BASE_URL = 'https://29.javascript.pages.academy/ekstagram';
-const DATA_URL = '/data';
+const sendData = (body) => fetch(
+  'https://28.javascript.pages.academy/ekstagram',
+  {
+    method: 'POST',
+    body,
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error();
+    }
+  });
 
-const Method = {
+
+export { getData , sendData };
+/*const Method = {
   GET: 'GET',
   POST: 'POST',
 };
@@ -24,5 +45,5 @@ const getData = () => load(`${BASE_URL}${DATA_URL}`, showAlert);
 
 const sendData = (body) => load(`${BASE_URL}`, showErrorMessage, Method.POST, body);
 
-export {getData, sendData};
+export {getData, sendData};*/
 
