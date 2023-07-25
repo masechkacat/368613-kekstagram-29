@@ -20,11 +20,10 @@ const createMessages = () => {
 };
 
 const onDocumentClickSuccess = (evt) => {
-  const isClickOnModal = evt.target.closest('[data-success-message]');
+  const isClickOnModal = evt.target.dataset.successMessage !== undefined;
 
   if (!isClickOnModal) {
     evt.preventDefault();
-    evt.stopPropagation();
 
     closeSuccessMessage();
   }
@@ -58,12 +57,13 @@ const showSuccessMessage = () => {
 };
 
 const onDocumentClickError = (evt) => {
-  const isClickOnModalErr = evt.target.closest('[data-error-message]');
+  const isClickOnModalErr = evt.target.dataset.errorMessage !== undefined;
 
   if (!isClickOnModalErr) {
     evt.preventDefault();
     closeErrorMessage();
     evt.stopPropagation();
+
 
   }
 };
