@@ -1,5 +1,5 @@
 const getData = () => fetch(
-  'https://28.javascript.pages.academy/kekstagram/data')
+  'https://29.javascript.pages.academy/kekstagram/data')
   .then((response) => {
     if (!response.ok) {
       throw new Error();
@@ -11,7 +11,7 @@ const getData = () => fetch(
   });
 
 const sendData = (body) => fetch(
-  'https://28.javascript.pages.academy/kekstagram',
+  'https://29.javascript.pages.academy/kekstagram',
   {
     method: 'POST',
     body,

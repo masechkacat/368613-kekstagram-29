@@ -1,7 +1,6 @@
 import { onDocumentKeydown} from './form.js';
 import { closeModal } from './form.js';
 
-const ALERT_SHOW_TIME = 5000;
 
 const body = document.body;
 const successMessageTemplate = document.querySelector('#success').content;
@@ -107,12 +106,9 @@ const showAlert = (message) => {
   alertContainer.textContent = message;
 
   document.body.append(alertContainer);
-
-  setTimeout(() => {
-    alertContainer.remove();
-  }, ALERT_SHOW_TIME);
 };
 
 createMessages();
 
 export {showErrorMessage, showSuccessMessage, showAlert};
+
