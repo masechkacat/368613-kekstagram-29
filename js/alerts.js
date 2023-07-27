@@ -1,94 +1,68 @@
-import { onDocumentKeydown} from './form.js';
-import { closeModal } from './form.js';
+import {closeModal} from './form.js';
 
-
-const body = document.body;
-const successMessageTemplate = document.querySelector('#success').content;
-const newSuccessMessage = successMessageTemplate.cloneNode(true);
-const successButton = newSuccessMessage.querySelector('.success__button');
-
-const errorMessageTemplate = document.querySelector('#error').content;
-const newErrorMessage = errorMessageTemplate.cloneNode(true);
-const errorButton = newErrorMessage.querySelector('.error__button');
-
-const createMessages = () => {
-  body.append(newSuccessMessage);
-  document.querySelector('.success').classList.add('hidden');
-  body.append(newErrorMessage);
-  document.querySelector('.error').classList.add('hidden');
-};
-
-const onDocumentClickSuccess = (evt) => {
-  const isClickOnModal = evt.target.dataset.successMessage !== undefined;
-
-  if (!isClickOnModal) {
-    evt.preventDefault();
-
-    closeSuccessMessage();
-  }
-};
-
-const onDocumentSuccessKeydown = (evt) => {
-  if(evt.key === 'Escape'){
+const successTemplate = document.querySelector('#success').content.querySelector('.success');
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+//функция вызова события по нажатию кнопки ESC
+function onDocumentKeydown(evt,cb){
+  if (evt.key === 'Escape') {
     evt.preventDefault();
     evt.stopPropagation();
+    cb();
+  }
+}
+//реализация показа успешной отправки сообщения
+//закрытие по нажатию на тело документа вне сообщения
+const onSuccessDocumentClick = (evt)=>{
+  evt.preventDefault();
+  const isClickOnModalSuccess = evt.target.dataset.successMessage !== undefined;
+
+  if (!isClickOnModalSuccess) {
     closeSuccessMessage();
   }
 };
-
-function closeSuccessMessage () {
-  document.querySelector('.success').classList.add('hidden');
-  successButton.removeEventListener('click', closeSuccessMessage);
-  document.removeEventListener('keydown', onDocumentSuccessKeydown);
-  document.removeEventListener('click', onDocumentClickSuccess);
-  document.addEventListener('keydown', onDocumentKeydown);
-
+const onSuccesButtonClick = ()=>closeSuccessMessage();//закрытие по кнопке
+const onCloseSuccessMessage = (evt)=>onDocumentKeydown(evt,closeSuccessMessage);
+function closeSuccessMessage (){
+  document.body.querySelector('.success').remove();
+  document.body.removeEventListener('click',onSuccessDocumentClick);
+  document.body.removeEventListener('keydown', onCloseSuccessMessage);
   closeModal();
 }
-
-const showSuccessMessage = () => {
-  document.querySelector('.success').classList.remove('hidden');
-  successButton.addEventListener('click', closeSuccessMessage);
-  document.addEventListener('keydown', onDocumentSuccessKeydown);
-  document.addEventListener('click', onDocumentClickSuccess);
-  document.removeEventListener('keydown', onDocumentKeydown);
-
+const showSuccessMessage = ()=>{
+  const successBlock = successTemplate.cloneNode(true);
+  document.body.append(successBlock);
+  successBlock.querySelector('.success__button').addEventListener('click', onSuccesButtonClick);
+  document.body.addEventListener('click',onSuccessDocumentClick);
+  document.body.addEventListener('keydown',onCloseSuccessMessage);
 };
+//реализация окна с показом ошибки
+//закрытие окна по щелчку вне области сообщения
+const onErrorDocumentClick = (evt)=>{
+  evt.preventDefault();
+  const isClickOnModalError = evt.target.dataset.errorMessage !== undefined;
 
-const onDocumentClickError = (evt) => {
-  const isClickOnModalErr = evt.target.dataset.errorMessage !== undefined;
-
-  if (!isClickOnModalErr) {
-    evt.preventDefault();
+  if (!isClickOnModalError) {
     closeErrorMessage();
-    evt.stopPropagation();
-
-
   }
 };
-
-const onDocumentErrorKeydown = (evt) => {
-  if(evt.key === 'Escape'){
-    evt.preventDefault();
-    closeErrorMessage();
-    evt.stopPropagation();
-  }
-};
-
-function closeErrorMessage () {
-  document.querySelector('.error').classList.add('hidden');
-  errorButton.removeEventListener('click', closeErrorMessage);
-  document.removeEventListener('keydown', onDocumentErrorKeydown);
-  document.removeEventListener('click', onDocumentClickError);
-  document.addEventListener('keydown', onDocumentKeydown);
+const onErrorButtonclick = () => closeErrorMessage();
+const onCloseErrorMessage = (evt)=>onDocumentKeydown(evt,closeErrorMessage);
+function closeErrorMessage (){
+  document.body.querySelector('.error').remove();
+  document.body.classList.remove('has-modal');
+  document.body.removeEventListener('click',onErrorDocumentClick);
+  document.removeEventListener('keydown', onCloseErrorMessage);
 }
 
-const showErrorMessage = () => {
-  document.querySelector('.error').classList.remove('hidden');
-  errorButton.addEventListener('click', closeErrorMessage);
-  document.addEventListener('keydown', onDocumentErrorKeydown);
-  document.addEventListener('click', onDocumentClickError);
-  document.removeEventListener('keydown', onDocumentKeydown);
+const showErrorMessage = ()=>{
+  const errorBlock = errorTemplate.cloneNode(true);
+  const errorButton = errorBlock.querySelector('.error__button');
+  document.body.append(errorBlock);
+  document.body.classList.add('has-modal');
+  errorButton.addEventListener('click',onErrorButtonclick);
+  document.body.addEventListener('keydown',onCloseErrorMessage);
+  document.body.addEventListener('click',onErrorDocumentClick);
+
 };
 
 const showAlert = (message) => {
@@ -108,7 +82,4 @@ const showAlert = (message) => {
   document.body.append(alertContainer);
 };
 
-createMessages();
-
-export {showErrorMessage, showSuccessMessage, showAlert};
-
+export{showSuccessMessage,showErrorMessage, showAlert};
