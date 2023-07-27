@@ -1,5 +1,3 @@
-import {closeModal} from './form.js';
-
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 //функция вызова события по нажатию кнопки ESC
@@ -26,7 +24,6 @@ function closeSuccessMessage (){
   document.body.querySelector('.success').remove();
   document.body.removeEventListener('click',onSuccessDocumentClick);
   document.body.removeEventListener('keydown', onCloseSuccessMessage);
-  closeModal();
 }
 const showSuccessMessage = ()=>{
   const successBlock = successTemplate.cloneNode(true);
