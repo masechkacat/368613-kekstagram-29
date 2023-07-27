@@ -1,5 +1,6 @@
 import { resetZoom } from './skale.js';
 import { resetEffects } from './slider.js';
+import { sendData } from './api.js';
 
 const MAX_TAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -21,12 +22,8 @@ const commentField = document.querySelector('.text__description');
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
-  //errorTextClass: 'img-upload__field-wrapper__error' //описать стиль в css если будет время
+  errorTextClass: 'img-upload__field-wrapper__error' //описать стиль в css если будет время
 });
-
-const disableSendButton = () => pristine.validate()
-  ? sendFormButton.removeAttribute('disabled')
-  : sendFormButton.setAttribute('disabled', true);
 
 const isTextFieldFocused = () =>
   document.activeElement === hashtagField ||
@@ -38,6 +35,11 @@ const onDocumentKeydown = (evt) => {
     closeModal();
   }
 };
+
+const disableSendButton = () => pristine.validate()
+  ? sendFormButton.removeAttribute('disabled')
+  : sendFormButton.setAttribute('disabled', true);
+
 
 const openModal = () => {
   uploadOverlay.classList.remove('hidden');
@@ -93,15 +95,44 @@ pristine.addValidator(
   1,
   true
 );
-const openForm = () => {
-  uploadControl.addEventListener('change', () =>
-    openModal()
-  );
+
+const SubmitButtonText = {
+  IDLE: 'Сохранить',
+  SENDING: 'Сохраняю...'
 };
 
-sendFormButton.addEventListener('input', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
+const blockSubmitBtn = () => {
+  sendFormButton.disabled = true;
+  sendFormButton.textContent = SubmitButtonText.SENDING;
+};
 
-export {openForm};
+const unblockSubmitBtn = () => {
+  sendFormButton.disabled = false;
+  sendFormButton.textContent = SubmitButtonText.IDLE;
+};
+
+uploadControl.addEventListener('change', () =>
+  openModal()
+);
+
+const setUserFormSubmit = (onSuccess, onError) => {
+
+  uploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitBtn();
+      const formData = new FormData(evt.target);
+      sendData(formData)
+        .then(onSuccess)
+        .catch(() => {
+          onError();
+        }
+        )
+        .finally(unblockSubmitBtn);
+    }
+  });
+};
+
+export {setUserFormSubmit, closeModal, onDocumentKeydown};
