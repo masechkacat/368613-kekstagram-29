@@ -1,6 +1,7 @@
 import { resetZoom } from './skale.js';
 import { resetEffects } from './slider.js';
 import { sendData } from './api.js';
+import { showPreviewImg } from './upload-img.js';
 
 const MAX_TAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -111,9 +112,10 @@ const unblockSubmitBtn = () => {
   sendFormButton.textContent = SubmitButtonText.IDLE;
 };
 
-uploadControl.addEventListener('change', () =>
-  openModal()
-);
+uploadControl.addEventListener('change', () => {
+  openModal();
+  showPreviewImg();
+});
 
 const setUserFormSubmit = (onSuccess, onError) => {
 
