@@ -85,7 +85,10 @@ const reGenerateMiniatures = (arr, btn) => {
 const initSorting = (data) => {
   showSorting();
   buttons.forEach((btn) => {
-    btn.addEventListener('click', () => reGenerateMiniatures(data, btn));
+    btn.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      reGenerateMiniatures(data, btn);
+    });
   });
 };
 
