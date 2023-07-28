@@ -1,6 +1,8 @@
 import { resetZoom } from './skale.js';
 import { resetEffects } from './slider.js';
 import { sendData } from './api.js';
+import { showPreviewImg } from './upload-img.js';
+import { showErrorMessage, showSuccessMessage } from './alerts.js';
 
 const MAX_TAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -111,11 +113,12 @@ const unblockSubmitBtn = () => {
   sendFormButton.textContent = SubmitButtonText.IDLE;
 };
 
-uploadControl.addEventListener('change', () =>
-  openModal()
-);
+uploadControl.addEventListener('change', () => {
+  openModal();
+  showPreviewImg();
+});
 
-const setUserFormSubmit = (onSuccess, onError) => {
+const setUserFormSubmit = () => {
 
   uploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -125,9 +128,12 @@ const setUserFormSubmit = (onSuccess, onError) => {
       blockSubmitBtn();
       const formData = new FormData(evt.target);
       sendData(formData)
-        .then(onSuccess)
+        .then(()=>{
+          closeModal();
+          showSuccessMessage();
+        })
         .catch(() => {
-          onError();
+          showErrorMessage();
         }
         )
         .finally(unblockSubmitBtn);
@@ -135,4 +141,5 @@ const setUserFormSubmit = (onSuccess, onError) => {
   });
 };
 
-export {setUserFormSubmit, closeModal, onDocumentKeydown};
+
+export {setUserFormSubmit, onDocumentKeydown};
