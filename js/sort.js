@@ -1,4 +1,4 @@
-import {getRandomInteger} from './util.js';
+import {debounce, getRandomInteger} from './util.js';
 import {renderMiniatures} from './miniatures.js';
 
 const Filter = {
@@ -14,7 +14,7 @@ const TYME_OUT_OF_DELAY = 500;
 const sortContainer = document.querySelector('.img-filters');
 const defaultSort = document.querySelector('#filter-default');
 const btnSortForm = document.querySelector('.img-filters__form');
-const buttons = btnSortForm.children;
+const buttons = btnSortForm.childNodes;
 const randomSort = document.querySelector('#filter-random');
 const discussSort = document.querySelector('#filter-discussed');
 
@@ -41,50 +41,53 @@ const sortRandomMiniatures = (arr) => {
 
 const sortDiscussMiniatures = (arr) => arr.slice().sort((arrItemA, arrItemB) => arrItemB.comments.length - arrItemA.comments.length);
 
-const renderDefaultMiniatures = (arr) => {
+const renderDefaultMiniatures = debounce((arr) => {
   deleteMiniatures();
   renderMiniatures(arr);
-};
+}, TYME_OUT_OF_DELAY);
 
-const renderRandomMiniatures = (arr) => {
+const renderRandomMiniatures = debounce((arr) => {
   deleteMiniatures();
   renderMiniatures(sortRandomMiniatures(arr));
-};
+}, TYME_OUT_OF_DELAY);
 
-const renderDiscussMiniatures = (arr) => {
+const renderDiscussMiniatures = debounce((arr) => {
   deleteMiniatures();
   renderMiniatures(sortDiscussMiniatures(arr));
-};
-
-const setBtnClick = (cb) => {
-  for (const btn of buttons) {
-    btn.addEventListener('click', () => {
-      cb(btn);
-    });
-  }
-};
+}, TYME_OUT_OF_DELAY);
 
 const reGenerateMiniatures = (arr, btn) => {
   if (btn.id === Filter.RANDOM) {
-    renderRandomMiniatures(arr);
+
     randomSort.classList.add(activeSortClass);
     defaultSort.classList.remove(activeSortClass);
     discussSort.classList.remove(activeSortClass);
+    renderRandomMiniatures(arr);
   }
 
   if (btn.id === Filter.DISCUSSED) {
-    renderDiscussMiniatures(arr);
+
     discussSort.classList.add(activeSortClass);
     defaultSort.classList.remove(activeSortClass);
     randomSort.classList.remove(activeSortClass);
+    renderDiscussMiniatures(arr);
   }
 
   if (btn.id === Filter.DEFAULT) {
-    renderDefaultMiniatures(arr);
+
     defaultSort.classList.add(activeSortClass);
     discussSort.classList.remove(activeSortClass);
     randomSort.classList.remove(activeSortClass);
+    renderDefaultMiniatures(arr);
   }
 };
 
-export {showSorting, reGenerateMiniatures, setBtnClick, TYME_OUT_OF_DELAY};
+const initSorting = (data) => {
+  showSorting();
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => reGenerateMiniatures(data, btn));
+  });
+};
+
+
+export {initSorting};
