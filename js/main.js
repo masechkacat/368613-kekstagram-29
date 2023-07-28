@@ -6,16 +6,12 @@ import'./slider.js';
 import { getData } from './api.js';
 import { setUserFormSubmit } from './form.js';
 import { showAlert } from './alerts.js';
-import { debounce } from './util.js';
-import {showSorting, reGenerateMiniatures, setBtnClick, TYME_OUT_OF_DELAY} from './sort.js';
+import {initFilters} from './sort.js';
 
 getData()
   .then((data) => {
     renderMiniatures(data);
-    showSorting();
-    setBtnClick(debounce((btn) => {
-      reGenerateMiniatures(data, btn);
-    }, TYME_OUT_OF_DELAY));
+    initFilters(data);
     renderBigPicture(data);
   })
   .catch(
@@ -23,5 +19,4 @@ getData()
       showAlert(err.message);
     }
   );
-//openForm();
 setUserFormSubmit();
