@@ -9,7 +9,7 @@ const Filter = {
 
 const MAX_RANDOM_MINIATURES = 10;
 
-const TYME_OUT_OF_DELAY = 500;
+const TIME_OUT_OF_DELAY = 500;
 
 const sortContainer = document.querySelector('.img-filters');
 const defaultSort = document.querySelector('#filter-default');
@@ -40,17 +40,17 @@ const sortDiscussMiniatures = (arr) => arr.slice().sort((arrItemA, arrItemB) => 
 const renderDefaultMiniatures = debounce((arr) => {
   deleteMiniatures();
   renderMiniatures(arr);
-}, TYME_OUT_OF_DELAY);
+}, TIME_OUT_OF_DELAY);
 
 const renderRandomMiniatures = debounce((arr) => {
   deleteMiniatures();
   renderMiniatures(sortRandomMiniatures(arr));
-}, TYME_OUT_OF_DELAY);
+}, TIME_OUT_OF_DELAY);
 
 const renderDiscussMiniatures = debounce((arr) => {
   deleteMiniatures();
   renderMiniatures(sortDiscussMiniatures(arr));
-}, TYME_OUT_OF_DELAY);
+}, TIME_OUT_OF_DELAY);
 
 const reGenerateMiniatures = (arr, btn) => {
   if (btn.id === Filter.RANDOM) {
