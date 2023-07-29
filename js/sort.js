@@ -33,11 +33,7 @@ const deleteMiniatures = () => {
   }
 };
 
-const sortRandomMiniatures = (arr) => {
-  const newRandomMiniatures = arr.sort(getRandomInteger);
-
-  return newRandomMiniatures.slice(0, MAX_RANDOM_MINIATURES);
-};
+const sortRandomMiniatures = (arr) => arr.sort(getRandomInteger).slice(0, MAX_RANDOM_MINIATURES);
 
 const sortDiscussMiniatures = (arr) => arr.slice().sort((arrItemA, arrItemB) => arrItemB.comments.length - arrItemA.comments.length);
 
