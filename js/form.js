@@ -12,6 +12,12 @@ const ErrorText = {
   NOT_UNIQUE: 'Такой хэштег уже был',
 };
 
+
+const SubmitButtonText = {
+  IDLE: 'Сохранить',
+  SENDING: 'Сохраняю...'
+};
+
 const body = document.body;
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadControl = uploadForm.querySelector('#upload-file');
@@ -24,7 +30,7 @@ const commentField = document.querySelector('.text__description');
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__field-wrapper__error' //описать стиль в css если будет время
+  errorTextClass: 'img-upload__field-wrapper__error'
 });
 
 const isTextFieldFocused = () =>
@@ -71,7 +77,7 @@ const isValidTagsCount = (value) => normalizeTags(value).length <= MAX_TAG_COUNT
 
 const isUniqueTags = (value) => {
   const lowerCaseTags = normalizeTags(value).map((tag) => tag.toLowerCase());
-  return lowerCaseTags.length === new Set(lowerCaseTags).size;//через метод  set проверяем есть ли повторяющиеся элементы (тк сет возвращает массив без повторяющихся эллементов)
+  return lowerCaseTags.length === new Set(lowerCaseTags).size;
 };
 
 pristine.addValidator(
@@ -97,11 +103,6 @@ pristine.addValidator(
   1,
   true
 );
-
-const SubmitButtonText = {
-  IDLE: 'Сохранить',
-  SENDING: 'Сохраняю...'
-};
 
 const blockSubmitBtn = () => {
   sendFormButton.disabled = true;

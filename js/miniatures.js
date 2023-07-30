@@ -8,7 +8,7 @@ const thumbnailElements = ({url, description, likes, comments, id}) => {
   thumbnailElement.querySelector('.picture__img').alt = description;
   thumbnailElement.querySelector('.picture__likes').textContent = likes;
   thumbnailElement.querySelector('.picture__comments').textContent = comments.length;
-  thumbnailElement.dataset.thumbnailId = id; //завели для делегирования, добавляет атрибут data-thumbnail-id к миниатюре
+  thumbnailElement.dataset.thumbnailId = id;
 
   return thumbnailElement;
 };
@@ -17,10 +17,10 @@ const renderMiniatures = (pictures) => {
   const thumbnailsContainerFragment = document.createDocumentFragment();
   pictures.forEach((picture) => {
     const thumbnailElement = thumbnailElements(picture);
-    thumbnailsContainerFragment.appendChild(thumbnailElement);
+    thumbnailsContainerFragment.append(thumbnailElement);
 
   });
 
-  thumbnailsContainer.appendChild(thumbnailsContainerFragment);
+  thumbnailsContainer.append(thumbnailsContainerFragment);
 };
 export {renderMiniatures};

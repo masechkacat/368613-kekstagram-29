@@ -1,5 +1,3 @@
-import { imageElement } from './skale.js';
-
 const defaultFilter = {
   name: 'none',
   style: 'none',
@@ -61,6 +59,7 @@ const effectsElement = document.querySelector('.effects');
 const sliderElement = document.querySelector('.effect-level__slider');
 const sliderContainer = document.querySelector('.img-upload__effect-level');
 const effectValue = document.querySelector('.effect-level__value');
+const imageElement = document.querySelector('.img-upload__preview img');
 
 let actualEffect = DEFAULT_EFFECT;
 
@@ -156,42 +155,3 @@ effectsElement.addEventListener('change', onEffectsChange);
 sliderElement.noUiSlider.on('update', onSliderUpdate);
 
 export {resetEffects};
-
-//начальнаы вариант на ифах
-/*if (evt.target.closest('#effect-chrome')) {
-    actualEffect = chromeFilter;
-    imageElement.className = `effects__preview--${actualEffect.name}`;
-    updateSlider();
-
-
-  if (evt.target.closest('#effect-sepia')) {
-    actualEffect = sepiaFilter;
-    imageElement.className = `effects__preview--${actualEffect.name}`;
-    updateSlider();
-  }
-console.log (evt.target.value);
-
-  if (evt.target.closest('#effect-marvin')) {
-    actualEffect = marvinFilter;
-    imageElement.className = `effects__preview--${actualEffect.name}`;
-    updateSlider();
-  }
-
-  if (evt.target.closest('#effect-phobos')) {
-    actualEffect = phobosFilter;
-    imageElement.className = `effects__preview--${actualEffect.name}`;
-    updateSlider();
-  }
-
-  if (evt.target.closest('#effect-heat')) {
-    actualEffect = heatFilter;
-    imageElement.className = `effects__preview--${actualEffect.name}`;
-    updateSlider();
-  }
-
-  if (evt.target.closest('#effect-none')) {
-    actualEffect = defaultFilter;
-    imageElement.className = `effects__preview--${actualEffect.name}`;
-    updateSlider();
-  }
-};*/
