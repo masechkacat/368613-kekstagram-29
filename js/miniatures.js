@@ -23,16 +23,7 @@ const createThumbnailElements = (pictures) => {
 const renderMiniatures = (pictures) => {
   createThumbnailElements(pictures);
   thumbnailsContainer.append(thumbnailsContainerFragment);
-};//const thumbnailsContainerFragment = document.createDocumentFragment();
-  /*const thumbnailsContainerFragment = document.createDocumentFragment();
-  pictures.forEach((picture) => {
-    const thumbnailElement = thumbnailElements(picture);
-    thumbnailsContainerFragment.append(thumbnailElement);
-
-  };
-
-  thumbnailsContainer.append(thumbnailsContainerFragment);
-};*/
+};
 
 const removeMiniatures = () => {
   document.querySelectorAll('.picture').forEach((picture) => {
