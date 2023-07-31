@@ -1,8 +1,5 @@
 import { debounce } from './util.js';
 
-const filterElement = document.querySelector('.img-filters');
-const imgFilters = document.querySelector('.img-filters');
-
 const PICTURE_COUNT = 10;
 
 const DEFAULT_TIME = 500;
@@ -12,6 +9,10 @@ const Filter = {
   RANDOM: 'filter-random',
   DISCUSSED: 'filter-discussed',
 };
+
+const filterElement = document.querySelector('.img-filters');
+const imgFilters = document.querySelector('.img-filters');
+
 let currentFilter = Filter.DEFAULT;
 
 let pictures = [];

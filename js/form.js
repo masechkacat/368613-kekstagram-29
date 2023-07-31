@@ -1,4 +1,4 @@
-import { resetZoom } from './skale.js';
+import { resetZoom, onBiggerButtonClick, onSmallerButtonClick } from './skale.js';
 import { resetEffects } from './slider.js';
 import { sendData } from './api.js';
 import { showPreviewImg } from './upload-img.js';
@@ -19,6 +19,7 @@ const SubmitButtonText = {
 };
 
 const body = document.body;
+const modalElement = document.querySelector ('.img-upload');
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadControl = uploadForm.querySelector('#upload-file');
 const sendFormButton = uploadForm.querySelector('.img-upload__submit');
@@ -26,6 +27,9 @@ const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
 const uploadCancelButton = uploadOverlay.querySelector('.img-upload__cancel');
 const hashtagField = document.querySelector('.text__hashtags');
 const commentField = document.querySelector('.text__description');
+const smallerButtonElement = modalElement.querySelector('.scale__control--smaller');
+const biggerButtonElement = modalElement.querySelector('.scale__control--bigger');
+
 
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -55,6 +59,9 @@ const openModal = () => {
   document.addEventListener('keydown', onDocumentKeydown);
   uploadCancelButton.addEventListener('click', closeModal);
   hashtagField.addEventListener('input', disableSendButton);
+  smallerButtonElement.addEventListener('click', onSmallerButtonClick);
+  biggerButtonElement.addEventListener('click', onBiggerButtonClick);
+
 };
 
 function closeModal () {
