@@ -10,7 +10,6 @@ getData()
   .then((data) => {
     renderMiniatures(data);
     renderBigPicture(data);
-    //initSorting(data);
     initFilters(data,(pictures) => {
       removeMiniatures();
       renderMiniatures(pictures);

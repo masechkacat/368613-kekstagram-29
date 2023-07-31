@@ -1,40 +1,34 @@
-const DEFAULT_SCALE = 100;
 const SCALE_STEP = 25;
 const MIN_SCALE = 25;
 const MAX_SCALE = 100;
 
-const modalElement = document.querySelector ('.img-upload');
-const smallerButtonElement = modalElement.querySelector('.scale__control--smaller');
-const biggerButtonElement = modalElement.querySelector('.scale__control--bigger');
-const scaleFieldElement = modalElement.querySelector('.scale__control--value');
-const imageElement = modalElement.querySelector('.img-upload__preview img');
+const scaleInput = document.querySelector('.scale__control--value');
+const scaleImg = document.querySelector('.img-upload__preview img');
 
-let currentScaleValue = parseInt(scaleFieldElement.value, 10);
+scaleInput.value = '100%';
 
-const scaleImage = (value) => {
-  imageElement.style.transform = `scale(${value / 100})`;
-  scaleFieldElement.value = `${value}%`;
-};
 
 const onSmallerButtonClick = () => {
-  currentScaleValue -= SCALE_STEP;
-  if (currentScaleValue < MIN_SCALE) {
-    currentScaleValue = MIN_SCALE;
+  let scaleNumber = parseInt(scaleInput.value, 10);
+  if(scaleNumber > MIN_SCALE && scaleNumber <= MAX_SCALE) {
+    scaleNumber -= SCALE_STEP;
   }
-  scaleImage(currentScaleValue);
+  scaleInput.value = `${scaleNumber}%`;
+  scaleImg.style.transform = `scale(${scaleNumber / 100})`;
 };
 
 const onBiggerButtonClick = () => {
-  currentScaleValue += SCALE_STEP;
-  if (currentScaleValue > MAX_SCALE) {
-    currentScaleValue = MAX_SCALE;
+  let scaleNumber = parseInt(scaleInput.value, 10);
+  if(scaleNumber >= MIN_SCALE && scaleNumber < MAX_SCALE) {
+    scaleNumber += SCALE_STEP;
   }
-  scaleImage(currentScaleValue);
+  scaleInput.value = `${scaleNumber}%`;
+  scaleImg.style.transform = `scale(${scaleNumber / 100})`;
 };
 
-const resetZoom = () => scaleImage(DEFAULT_SCALE);
+const resetZoom = () =>{
+  scaleInput.value = '100%';
+  scaleImg.style.transform = `scale(${MAX_SCALE / 100})`;
+};
 
-smallerButtonElement.addEventListener('click', onSmallerButtonClick);
-biggerButtonElement.addEventListener('click', onBiggerButtonClick);
-
-export {resetZoom};
+export {resetZoom, onBiggerButtonClick, onSmallerButtonClick};

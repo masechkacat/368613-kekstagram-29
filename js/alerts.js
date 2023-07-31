@@ -46,7 +46,7 @@ function closeErrorMessage () {
   document.body.querySelector('.error').remove();
   document.body.classList.remove('modal-open');
   document.body.removeEventListener('click',onErrorDocumentClick);
-  document.removeEventListener('keydown', onCloseErrorMessage);
+  document.body.removeEventListener('keydown', onCloseErrorMessage);
 }
 
 const showErrorMessage = () => {
