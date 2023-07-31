@@ -46,7 +46,7 @@ const onDocumentKeydown = (evt) => {
 
 const disableSendButton = () => pristine.validate()
   ? sendFormButton.removeAttribute('disabled')
-  : sendFormButton.setAttribute('disabled', true);
+  : sendFormButton.setAttribute('disabled', 'true');
 
 
 const openModal = () => {
