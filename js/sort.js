@@ -1,14 +1,21 @@
+import { debounce } from './util.js';
+
 const filterElement = document.querySelector('.img-filters');
 const imgFilters = document.querySelector('.img-filters');
+
 const PICTURE_COUNT = 10;
+
 const DEFAULT_TIME = 500;
-let pictures = [];
+
 const Filter = {
   DEFAULT: 'filter-default',
   RANDOM: 'filter-random',
-  DISCUSSED: 'filter-random',
+  DISCUSSED: 'filter-discussed',
 };
 let currentFilter = Filter.DEFAULT;
+
+let pictures = [];
+
 const sortRandomly = () => Math.random() - 0.5;
 const sortByComments = (pictureA, pictureB) => pictureB.comments.length - pictureA.comments.length ;
 
@@ -17,20 +24,10 @@ const getFilteredPictures = () => {
     case Filter.RANDOM:
       return [...pictures].sort(sortRandomly).slice(0, PICTURE_COUNT);
     case Filter.DISCUSSED:
-      return [...pictures].sort(sortByComments(this));
+      return [...pictures].sort(sortByComments);
     default:
       return [...pictures];
   }
-};
-
-const debounce = (func, timeout) =>{
-  let timer;
-  return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      func.apply(this,args);
-    }, timeout);
-  };
 };
 
 const applyFilter = debounce((callback) => {
