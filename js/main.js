@@ -1,6 +1,5 @@
 import {renderMiniatures, removeMiniatures} from'./miniatures.js';
 import {renderBigPicture} from'./modal-window.js';
-import './form.js';
 import'./slider.js';
 import { getData } from './api.js';
 import { setUserFormSubmit } from './form.js';
