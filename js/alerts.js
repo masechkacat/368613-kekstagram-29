@@ -1,13 +1,13 @@
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 
-function onDocumentKeydown(evt,cb) {
+const onDocumentKeydown = (evt,cb) => {
   if (evt.key === 'Escape') {
     evt.preventDefault();
     evt.stopPropagation();
     cb();
   }
-}
+};
 
 const onSuccessDocumentClick = (evt) => {
   evt.preventDefault();

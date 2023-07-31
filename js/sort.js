@@ -1,92 +1,62 @@
-import {debounce, getRandomInteger} from './util.js';
-import {renderMiniatures} from './miniatures.js';
+import { debounce } from './util.js';
+
+const filterElement = document.querySelector('.img-filters');
+const imgFilters = document.querySelector('.img-filters');
+
+const PICTURE_COUNT = 10;
+
+const DEFAULT_TIME = 500;
 
 const Filter = {
   DEFAULT: 'filter-default',
   RANDOM: 'filter-random',
   DISCUSSED: 'filter-discussed',
 };
+let currentFilter = Filter.DEFAULT;
 
-const MAX_RANDOM_MINIATURES = 10;
+let pictures = [];
 
-const TIME_OUT_OF_DELAY = 500;
+const sortRandomly = () => Math.random() - 0.5;
+const sortByComments = (pictureA, pictureB) => pictureB.comments.length - pictureA.comments.length ;
 
-const sortContainer = document.querySelector('.img-filters');
-const defaultSort = document.querySelector('#filter-default');
-const btnSortForm = document.querySelector('.img-filters__form');
-const buttons = btnSortForm.childNodes;
-const randomSort = document.querySelector('#filter-random');
-const discussSort = document.querySelector('#filter-discussed');
-
-const activeSortClass = 'img-filters__button--active';
-
-const showSorting = () => {
-  sortContainer.classList.remove('img-filters--inactive');
-};
-
-const deleteMiniatures = () => {
-  const personalMiniatures = document.querySelectorAll('.picture');
-  if (personalMiniatures) {
-    personalMiniatures.forEach((personalMiniature) => {
-      personalMiniature.remove();
-    });
+const getFilteredPictures = () => {
+  switch(currentFilter) {
+    case Filter.RANDOM:
+      return [...pictures].sort(sortRandomly).slice(0, PICTURE_COUNT);
+    case Filter.DISCUSSED:
+      return [...pictures].sort(sortByComments);
+    default:
+      return [...pictures];
   }
 };
 
-const sortRandomMiniatures = (arr) => arr.sort(getRandomInteger).slice(0, MAX_RANDOM_MINIATURES);
+const applyFilter = debounce((callback) => {
+  const sortedPictures = getFilteredPictures();
+  callback(sortedPictures);
+}, DEFAULT_TIME);
 
-const sortDiscussMiniatures = (arr) => arr.slice().sort((arrItemA, arrItemB) => arrItemB.comments.length - arrItemA.comments.length);
 
-const renderDefaultMiniatures = debounce((arr) => {
-  deleteMiniatures();
-  renderMiniatures(arr);
-}, TIME_OUT_OF_DELAY);
-
-const renderRandomMiniatures = debounce((arr) => {
-  deleteMiniatures();
-  renderMiniatures(sortRandomMiniatures(arr));
-}, TIME_OUT_OF_DELAY);
-
-const renderDiscussMiniatures = debounce((arr) => {
-  deleteMiniatures();
-  renderMiniatures(sortDiscussMiniatures(arr));
-}, TIME_OUT_OF_DELAY);
-
-const reGenerateMiniatures = (arr, btn) => {
-  if (btn.id === Filter.RANDOM) {
-
-    randomSort.classList.add(activeSortClass);
-    defaultSort.classList.remove(activeSortClass);
-    discussSort.classList.remove(activeSortClass);
-    renderRandomMiniatures(arr);
-  }
-
-  if (btn.id === Filter.DISCUSSED) {
-
-    discussSort.classList.add(activeSortClass);
-    defaultSort.classList.remove(activeSortClass);
-    randomSort.classList.remove(activeSortClass);
-    renderDiscussMiniatures(arr);
-  }
-
-  if (btn.id === Filter.DEFAULT) {
-
-    defaultSort.classList.add(activeSortClass);
-    discussSort.classList.remove(activeSortClass);
-    randomSort.classList.remove(activeSortClass);
-    renderDefaultMiniatures(arr);
-  }
-};
-
-const initSorting = (data) => {
-  showSorting();
-  buttons.forEach((btn) => {
-    btn.addEventListener('click', (evt) => {
-      evt.preventDefault();
-      reGenerateMiniatures(data, btn);
-    });
+const setOnFilterCLick = (callback) => {
+  filterElement.addEventListener('click', (evt) => {
+    const clickedButton = evt.target;
+    if(!clickedButton.classList.contains('img-filters__button')) {
+      return;
+    }
+    if(clickedButton.id === currentFilter){
+      return;
+    }
+    currentFilter = filterElement.querySelector('.img-filters__button--active');
+    currentFilter.classList.remove('img-filters__button--active');
+    clickedButton.classList.add('img-filters__button--active');
+    currentFilter = clickedButton.id;
+    applyFilter(callback);
   });
 };
 
+const initFilters = (loadedPictures, callback) => {
+  imgFilters.classList.remove('img-filters--inactive');
+  pictures = [...loadedPictures];
+  setOnFilterCLick(callback);
+};
 
-export {initSorting};
+export { initFilters };
