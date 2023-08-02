@@ -22,7 +22,7 @@
     "start": "browser-sync start --server --no-ui --files \"js/**/*.js\"",
     "lint": "eslint js/",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d biuld"
+    "deploy": "gh-pages -d build"
   },
   "engines": {
     "node": "18",
