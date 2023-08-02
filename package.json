@@ -13,12 +13,15 @@
   "devDependencies": {
     "browser-sync": "2.29.3",
     "eslint": "8.42.0",
-    "eslint-config-htmlacademy": "9.1.1"
+    "eslint-config-htmlacademy": "9.1.1",
+    "gh-pages": "^5.0.0"
   },
   "license": "MIT",
   "scripts": {
     "start": "browser-sync start --server --no-ui --files \"js/**/*.js\"",
-    "lint": "eslint js/"
+    "lint": "eslint js/",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d biuld"
   },
   "engines": {
     "node": "18",
